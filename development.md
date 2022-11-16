@@ -29,7 +29,7 @@
 5. 点聚合 TODO 完成primitive聚合，datasource聚合待完成
 6. 图形绘制
 7. 3dtiles模型 TODO
-8. popup TODO
+8. popup
 9. 第一人称视角
 10. 鹰眼图
 11. 雷达扫描
@@ -98,4 +98,4 @@
 
 **2022-11-16**
 
-添加天气
+添加天气、弹窗
