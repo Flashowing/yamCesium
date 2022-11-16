@@ -1,22 +1,10 @@
-(function (factory) {
-    if (typeof module === "object" && typeof module.exports === "object") {
-        var v = factory(require, exports);
-        if (v !== undefined) module.exports = v;
+var createFragmentFromTemplate = function (htmlString) {
+    var holder = document.createElement('div');
+    holder.innerHTML = htmlString;
+    var fragment = document.createDocumentFragment();
+    while (holder.firstChild) {
+        fragment.appendChild(holder.firstChild);
     }
-    else if (typeof define === "function" && define.amd) {
-        define(["require", "exports"], factory);
-    }
-})(function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var createFragmentFromTemplate = function (htmlString) {
-        var holder = document.createElement('div');
-        holder.innerHTML = htmlString;
-        var fragment = document.createDocumentFragment();
-        while (holder.firstChild) {
-            fragment.appendChild(holder.firstChild);
-        }
-        return fragment;
-    };
-    exports.default = createFragmentFromTemplate;
-});
+    return fragment;
+};
+export default createFragmentFromTemplate;

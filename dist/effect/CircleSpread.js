@@ -1,98 +1,64 @@
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
-(function (factory) {
-    if (typeof module === "object" && typeof module.exports === "object") {
-        var v = factory(require, exports);
-        if (v !== undefined) module.exports = v;
-    }
-    else if (typeof define === "function" && define.amd) {
-        define(["require", "exports", "cesium"], factory);
-    }
-})(function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * 圆扩散
+ */
+import * as Cesium from "cesium";
+var CircleSpread = /** @class */ (function () {
     /**
-     * 圆扩散
+     * 生成动态圆
+     * @param options 参数
+     * @param options.viewer viewer
+     * @param options.center 中心点
+     * @param options.color 颜色
+     * @param options.radius 半径
+     * @param options.duration 持续时间
      */
-    var Cesium = __importStar(require("cesium"));
-    var CircleSpread = /** @class */ (function () {
-        /**
-         * 生成动态圆
-         * @param options 参数
-         * @param options.viewer viewer
-         * @param options.center 中心点
-         * @param options.color 颜色
-         * @param options.radius 半径
-         * @param options.duration 持续时间
-         */
-        function CircleSpread(options) {
-            this.viewer = options.viewer;
-            this.addCircleScan(options);
-        }
-        /**
-         * 生成动态圆
-         * @param options
-         */
-        CircleSpread.prototype.addCircleScan = function (options) {
-            var _this = this;
-            var viewer = options.viewer;
-            var _Cartesian3Center = options.center;
-            var _Cartesian4Center = new Cesium.Cartesian4(_Cartesian3Center.x, _Cartesian3Center.y, _Cartesian3Center.z, 1);
-            var _CartograhpicCenter1 = Cesium.Cartographic.fromCartesian(options.center);
-            _CartograhpicCenter1.height += 1;
-            var _Cartesian3Center1 = Cesium.Cartographic.toCartesian(_CartograhpicCenter1);
-            var _Cartesian4Center1 = new Cesium.Cartesian4(_Cartesian3Center1.x, _Cartesian3Center1.y, _Cartesian3Center1.z, 1);
-            var _time = new Date().getTime();
-            var _scratchCartesian4Center = new Cesium.Cartesian4();
-            var _scratchCartesian4Center1 = new Cesium.Cartesian4();
-            var _scratchCartesian3Normal = new Cesium.Cartesian3();
-            var ScanPostStage = new Cesium.PostProcessStage({
-                fragmentShader: _this.shader(),
-                uniforms: {
-                    u_scanCenterEC: function () {
-                        return Cesium.Matrix4.multiplyByVector(viewer.camera.viewMatrix, _Cartesian4Center, _scratchCartesian4Center);
-                    },
-                    u_scanPlaneNormalEC: function () {
-                        var temp = Cesium.Matrix4.multiplyByVector(viewer.camera.viewMatrix, _Cartesian4Center, _scratchCartesian4Center);
-                        var temp1 = Cesium.Matrix4.multiplyByVector(viewer.camera.viewMatrix, _Cartesian4Center1, _scratchCartesian4Center1);
-                        _scratchCartesian3Normal.x = temp1.x - temp.x;
-                        _scratchCartesian3Normal.y = temp1.y - temp.y;
-                        _scratchCartesian3Normal.z = temp1.z - temp.z;
-                        Cesium.Cartesian3.normalize(_scratchCartesian3Normal, _scratchCartesian3Normal);
-                        return _scratchCartesian3Normal;
-                    },
-                    u_radius: function () {
-                        return options.radius * ((new Date().getTime() - _time) % options.duration) / options.duration;
-                    },
-                    u_scanColor: options.color
-                }
-            });
-            viewer.scene.postProcessStages.add(ScanPostStage);
-            return ScanPostStage;
-        };
-        CircleSpread.prototype.shader = function () {
-            return "\n\
+    function CircleSpread(options) {
+        this.viewer = options.viewer;
+        this.addCircleScan(options);
+    }
+    /**
+     * 生成动态圆
+     * @param options
+     */
+    CircleSpread.prototype.addCircleScan = function (options) {
+        var _this = this;
+        var viewer = options.viewer;
+        var _Cartesian3Center = options.center;
+        var _Cartesian4Center = new Cesium.Cartesian4(_Cartesian3Center.x, _Cartesian3Center.y, _Cartesian3Center.z, 1);
+        var _CartograhpicCenter1 = Cesium.Cartographic.fromCartesian(options.center);
+        _CartograhpicCenter1.height += 1;
+        var _Cartesian3Center1 = Cesium.Cartographic.toCartesian(_CartograhpicCenter1);
+        var _Cartesian4Center1 = new Cesium.Cartesian4(_Cartesian3Center1.x, _Cartesian3Center1.y, _Cartesian3Center1.z, 1);
+        var _time = new Date().getTime();
+        var _scratchCartesian4Center = new Cesium.Cartesian4();
+        var _scratchCartesian4Center1 = new Cesium.Cartesian4();
+        var _scratchCartesian3Normal = new Cesium.Cartesian3();
+        var ScanPostStage = new Cesium.PostProcessStage({
+            fragmentShader: _this.shader(),
+            uniforms: {
+                u_scanCenterEC: function () {
+                    return Cesium.Matrix4.multiplyByVector(viewer.camera.viewMatrix, _Cartesian4Center, _scratchCartesian4Center);
+                },
+                u_scanPlaneNormalEC: function () {
+                    var temp = Cesium.Matrix4.multiplyByVector(viewer.camera.viewMatrix, _Cartesian4Center, _scratchCartesian4Center);
+                    var temp1 = Cesium.Matrix4.multiplyByVector(viewer.camera.viewMatrix, _Cartesian4Center1, _scratchCartesian4Center1);
+                    _scratchCartesian3Normal.x = temp1.x - temp.x;
+                    _scratchCartesian3Normal.y = temp1.y - temp.y;
+                    _scratchCartesian3Normal.z = temp1.z - temp.z;
+                    Cesium.Cartesian3.normalize(_scratchCartesian3Normal, _scratchCartesian3Normal);
+                    return _scratchCartesian3Normal;
+                },
+                u_radius: function () {
+                    return options.radius * ((new Date().getTime() - _time) % options.duration) / options.duration;
+                },
+                u_scanColor: options.color
+            }
+        });
+        viewer.scene.postProcessStages.add(ScanPostStage);
+        return ScanPostStage;
+    };
+    CircleSpread.prototype.shader = function () {
+        return "\n\
                 uniform sampler2D colorTexture;\n\
                 uniform sampler2D depthTexture;\n\
                 varying vec2 v_textureCoordinates;\n\
@@ -137,8 +103,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
                                 gl_FragColor = mix(gl_FragColor,u_scanColor,f);\n\
                             }\n\
                 } \n ";
-        };
-        return CircleSpread;
-    }());
-    exports.default = CircleSpread;
-});
+    };
+    return CircleSpread;
+}());
+export default CircleSpread;

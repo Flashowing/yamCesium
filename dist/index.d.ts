@@ -39,3 +39,8 @@ export { Effect };
  */
 import Weather from "./scene/weather/Weather";
 export { Weather };
+/**
+ * popup
+ */
+import Popup from "./plugins/popup/Popup";
+export { Popup };

@@ -512,7 +512,20 @@
       negativeY: "http://222.178.182.14:18090/web/img/weather/cloudy/Back.jpg",
       positiveZ: "http://222.178.182.14:18090/web/img/weather/cloudy/Up.jpg",
       negativeZ: "http://222.178.182.14:18090/web/img/weather/cloudy/Down.jpg"
-    })
+    });
+  });
+
+  // popup
+  new yamCesium.Popup(viewer, {
+    title: "标题1",
+    content: `<div>
+                    <p>经度：106.392387</p>
+                    <p>纬度：29.809682</p>
+                </div>`,
+    position: Cesium.Cartesian3.fromDegrees(106.392387, 29.809682),
+    closeCallback: () => {
+      console.log("关闭气泡1");
+    }
   });
 </script>
 </body>
