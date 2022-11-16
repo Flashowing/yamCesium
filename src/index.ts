@@ -110,3 +110,9 @@ export { Weather };
 import Popup from "./plugins/popup/Popup";
 
 export { Popup };
+
+/**
+ * 3dtiles
+ */
+import Cesium3DTiles from "./model/Cesium3dTiles";
+export { Cesium3DTiles };

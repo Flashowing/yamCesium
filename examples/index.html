@@ -527,6 +527,12 @@
       console.log("关闭气泡1");
     }
   });
+
+  // 3dTiles
+  let tiles = new yamCesium.Cesium3DTiles(viewer);
+  tiles.add3dTiles({
+    url: "http://183.230.114.154:9010/newsmap202201/zsyc1/tileset.json",
+  })
 </script>
 </body>
 
