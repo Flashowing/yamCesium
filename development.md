@@ -41,9 +41,8 @@
 17. proj4js TODO
 18. 汉化
 19. 引入CesiumMethod和PublicMethod
-20. 挖坑 TODO
-21. 双击旋转
-22. 天气 
+20. 双击旋转
+21. 天气 
 
 
 # 更新日志
